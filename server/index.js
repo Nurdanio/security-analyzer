@@ -1,20 +1,30 @@
-const cors = require('cors')
-const express = require('express')
-const events = require('events')
-const PORT = 5000
+const { antivirus } = require("modules/availability/antivirus");
+const cors = require("cors");
+const express = require("express");
+const PORT = 5000;
 
-const emitter = new events.EventEmitter()
+const app = express();
 
-const app = express()
+app.use(cors());
 
-app.use(cors())
+app.get("/test", async (req, res) => {
+  res.status(200).json(antivirus());
+});
 
-app.get('', () => {})
+app.get("/perfomance/antivirus", (req, res) => {
+  res.status(200).json("antivirus");
+});
 
-app.post('', (req, res) => {
-    const message = req.body
+app.get("/perfomance/firewall", (req, res) => {
+  res.status(200).json("firewall");
+});
 
-    res.status(200)
-})
+app.get("/availability/antivirus", (req, res) => {
+  res.status(200).json("firewall");
+});
 
-app.listen(PORT, () => console.log("Yes"))
+app.get("/availability/firewall", (req, res) => {
+  res.status(200).json("firewall");
+});
+
+app.listen(PORT, () => console.log("Server started on PORT:" + PORT));
