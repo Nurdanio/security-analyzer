@@ -1,9 +1,9 @@
-const fs = require("fs");
+import fs from "fs";
 
 const searcher = (antivirus) =>
   fs.readdirSync("C:/Program Files").includes(antivirus);
 
-export const antivirus = () => {
+export const hasAntivirus = () => {
   const PopularAntivirus = [
     "Kaspersky",
     "Norton",
