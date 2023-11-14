@@ -18,10 +18,14 @@ export const Home = () => {
             Проверить устройство
           </Text>
           <Select
-            fw={600}
-            size="15px"
-            variant="unstyled"
+            // fw={600}
+            // variant="unstyled"
             withCheckIcon={false}
+            styles={{
+              wrapper: {
+                width: "300px",
+              },
+            }}
             defaultValue={Analysis[1].text}
             data={Analysis.map((value) => value.text)}
           />
