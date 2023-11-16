@@ -6,11 +6,13 @@ interface Analyze {
   test: () => void;
 }
 
-const getStatus = async (url: string, setState: (state: string) => void) =>
-  await axios.get(url).then(({ data }) => setState(data.message));
-
 export const useAnalysis = (): Analyze[] => {
   const { setResult } = useResultStore();
+
+  const getStatus = async (url: string) =>
+    await axios
+      .get(`http://localhost:5000${url}`)
+      .then(({ data }) => setResult(data.message));
 
   return [
     {
@@ -22,23 +24,19 @@ export const useAnalysis = (): Analyze[] => {
     },
     {
       text: "на наличие антивируса",
-      test: () =>
-        getStatus("http://localhost:5000/availability/antivirus", setResult),
+      test: () => getStatus("/availability/antivirus"),
     },
     {
       text: "на наличие файрволла",
-      test: () =>
-        getStatus("http://localhost:5000/availability/firewall", setResult),
+      test: () => getStatus("/availability/firewall"),
     },
     {
       text: "на работоспособность антивируса",
-      test: () =>
-        getStatus("http://localhost:5000/perfomance/antivirus", setResult),
+      test: () => getStatus("/perfomance/antivirus"),
     },
     {
       text: "на работоспособность файрволла",
-      test: () =>
-        getStatus("http://localhost:5000/perfomance/firewall", setResult),
+      test: () => getStatus("/perfomance/firewall"),
     },
   ];
 };

@@ -26,9 +26,11 @@ app.get("/availability/antivirus", (req, res) => {
 
 app.get("/availability/firewall", (req, res) => {
   res.status(200).json({
-    message: hasFirewall().length
-      ? "На данном устройстве фаерволл установлен"
-      : "На данном устройстве фаерволл не установлен",
+    message: hasFirewall().then((state) =>
+      state
+        ? "На данном устройстве фаерволл установлен"
+        : "На данном устройстве фаерволл не установлен",
+    ),
   });
 });
 
