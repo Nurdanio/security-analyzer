@@ -15,3 +15,8 @@ export const hasAntivirus = () => {
 
   return PopularAntivirus.filter((antivirus) => searcher(antivirus));
 };
+
+export const hasFirewall = () => {
+  const systemPath = "C:\\Windows\\System32";
+  return fs.readdirSync(systemPath).includes("FirewallControlPanel.dll");
+};
