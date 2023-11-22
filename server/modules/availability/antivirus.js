@@ -1,7 +1,7 @@
 import fs from "fs";
 
 const searcher = (antivirus) =>
-  fs.readdirSync("/System/Applications").includes(antivirus);
+  fs.readdirSync("C:\\Program Files").includes(antivirus);
 
 export const hasAntivirus = () => {
   const PopularAntivirus = [
@@ -13,5 +13,5 @@ export const hasAntivirus = () => {
     "Windows Defender",
   ];
 
-  return PopularAntivirus.filter((antivirus) => searcher(antivirus)) ?? [];
+  return PopularAntivirus.filter((antivirus) => searcher(antivirus));
 };

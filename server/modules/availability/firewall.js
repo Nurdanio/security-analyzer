@@ -8,11 +8,10 @@
 import regedit from "regedit";
 
 export const hasFirewall = async () => {
-  return !!regedit
-    .list([
-      "HKLM\\SYSTEM\\ControlSet001\\Services\\SharedAccess\\Defaults\\FirewallPolicy\\StandardProfile",
-    ])
-    .on("data", (entry) => entry.data);
-};
+  const pathToRegistry =
+    "HKLM\\SYSTEM\\ControlSet001\\Services\\SharedAccess\\Defaults\\FirewallPolicy\\StandardProfile";
 
-hasFirewall().then((data) => console.log(data));
+  const data = await regedit.promisified.list(pathToRegistry);
+
+  return !!data[pathToRegistry].values.EnableFirewall.value;
+};

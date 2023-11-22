@@ -33,7 +33,7 @@ export const Home = () => {
 
             <Menu.Dropdown>
               {Analysis.map((analyzeType, index) => (
-                <Menu.Item onClick={() => setSelectedType(index)}>
+                <Menu.Item onClick={() => setSelectedType(index)} key={index}>
                   {analyzeType.text}
                 </Menu.Item>
               ))}

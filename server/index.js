@@ -3,13 +3,18 @@ import express from "express";
 
 import { hasFirewall } from "./modules/availability/firewall.js";
 import { hasAntivirus } from "./modules/availability/antivirus.js";
+import { testAntivirus } from "./modules/perfomance/firewall.js";
 
 const app = express();
 
 app.use(cors());
 
-app.get("/perfomance/antivirus", (req, res) => {
-  res.status(200).json({ message: "antivirus" });
+app.get("/perfomance/antivirus", async (req, res) => {
+  res.status(200).json({
+    message: (await testAntivirus())
+      ? "Антивирус работает исправно!"
+      : "Антивирус работает неисправно!",
+  });
 });
 
 app.get("/perfomance/firewall", (req, res) => {
@@ -17,20 +22,21 @@ app.get("/perfomance/firewall", (req, res) => {
 });
 
 app.get("/availability/antivirus", (req, res) => {
+  const deviceAntivirus = hasAntivirus();
   res.status(200).json({
-    message: hasAntivirus().length
-      ? `Обнаруженные антивирусы: ${hasAntivirus()} `
+    message: deviceAntivirus.length
+      ? `На данном устройстве антивирус имеется. Обнаруженные антивирусы: ${deviceAntivirus}`
       : "На данном устройстве антивирус не обнаружен",
   });
 });
 
 app.get("/availability/firewall", (req, res) => {
+  const isProtected = hasFirewall().then((data) => data);
+
   res.status(200).json({
-    message: hasFirewall().then((state) =>
-      state
-        ? "На данном устройстве фаерволл установлен"
-        : "На данном устройстве фаерволл не установлен",
-    ),
+    message: isProtected
+      ? "На данном устройстве фаерволл установлен"
+      : "На данном устройстве фаерволл не установлен",
   });
 });
 
